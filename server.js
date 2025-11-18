@@ -5,7 +5,11 @@ const nodemailer = require("nodemailer");
 const XLSX = require("xlsx");
 const fs = require("fs");
 const path = require("path");
+const dotenv = require("dotenv");
+dotenv.config();
+
 const PORT = process.env.PORT || 5000;
+const GoogleGmailPassword = process.env.GOOGLE_GMAIL_PASSWORD;
 
 const allowedOrigins = [
     "http://localhost:5173",
@@ -46,7 +50,7 @@ app.post("/send-emails", upload.fields([{ name: "excel" }, { name: "resume" }]),
             port: 465,
             auth: {
                 user: "abhishah578@gmail.com",
-                pass: "edpi ztzh ljax bqun",
+                pass: GoogleGmailPassword,
             },
             maxConnections: 1,
             maxMessages: 200,
@@ -76,7 +80,6 @@ app.post("/send-emails", upload.fields([{ name: "excel" }, { name: "resume" }]),
                     to: email,
                     subject: subject,
                     html: message.replace("{{company}}", company),
-                    // text: message.replace("{name}", company),
                     attachments: [
                         {
                             filename: "Abhi_Shah_Resume.pdf",
